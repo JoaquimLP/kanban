@@ -12,25 +12,25 @@ class KanbanComponent extends Component
         $status = [
                 'P' => [
                     'title' => "Pendentes",
-                    'atentimentos' => Atendimento::where('status_id', "P")->limit(10)->get(),
+                    'atentimentos' => Atendimento::where('status_id', "P")->paginate(10),
                     'class' => "info"
                 ],
 
                 'A' => [
                     'title' => "Em Atendimentos",
-                    'atentimentos' => Atendimento::where('status_id', "A")->limit(10)->get(),
+                    'atentimentos' => Atendimento::where('status_id', "A")->paginate(10),
                     'class' => "primary"
                 ],
 
                 'S' => [
                     'title' => "Sucesso",
-                    'atentimentos' => Atendimento::where('status_id', "S")->limit(10)->get(),
+                    'atentimentos' => Atendimento::where('status_id', "S")->paginate(10),
                     'class' => "success"
                 ],
 
                 'I' => [
                     'title' => "Insucesso",
-                    'atentimentos' => Atendimento::where('status_id', "I")->limit(10)->get(),
+                    'atentimentos' => Atendimento::where('status_id', "I")->paginate(10),
                     'class' => "danger"
                 ],
             ];

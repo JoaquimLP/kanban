@@ -3,14 +3,14 @@
         @foreach ($status as $key => $item)
             <div class="col" id="{{$key}}">
                 <div class="border bg-light overflow-auto" style="height: 77vh;">
-                    <div class="card-header sticky-top  bg-white border-bottom border-{{$item["class"]}} mb-2">
-                        <h4>{{$item['title']}} (0)</h4>
+                    <div class="card-header sticky-top  bg-white border-bottom border-{{$item["class"]}} mb-2 p-1">
+                        <h6 class="mt-1">{{$item['title']}} ({{$item["atentimentos"]->total()}})</h6>
                     </div>
                     @foreach ($item["atentimentos"] as $atendimento)
                         <div id="{{$atendimento->id}}" class="card mb-0 mb-2 mx-auto text-start" style="width: 14rem;">
                             <div class="card-body p-3">
                                 <small class="float-end text-muted">18 Jul 2022</small>
-                                <span class="badge bg-{{$item["class"]}}">{{$item['title']}}</span>
+                                <span class="badge bg-{{$item["class"]}}">#{{$atendimento->id}}</span>
 
                                 <h5 class="mt-2 mb-2">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#task-detail-modal" class="text-body">{{$atendimento->nome}}</a>
