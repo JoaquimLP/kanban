@@ -37,4 +37,9 @@ class KanbanComponent extends Component
         //dd($status);
         return view('livewire.kanban-component', compact('status'));
     }
+
+    public function updateGroupOrder($teste)
+    {
+        //dd($teste);
+    }
 }
