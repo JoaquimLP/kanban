@@ -69,11 +69,6 @@
             var atendimento = null;
             const sortable = new Sortable.default(document.querySelectorAll('.kanban-category'), {
                 draggable: '.card-kanban',
-                swapAnimation: {
-                    duration: 200,
-                    easingFunction: 'ease-in-out',
-                    horizontal: true
-                },
             });
 
             sortable.on('drag:over:container', function (e) {
