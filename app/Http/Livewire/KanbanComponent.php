@@ -40,6 +40,11 @@ class KanbanComponent extends Component
 
     public function updateGroupOrder($teste)
     {
-        //dd($teste);
+        dd($teste);
+    }
+
+    public function updateTaskOrder($teste)
+    {
+        dd($teste);
     }
 }
