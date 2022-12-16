@@ -78,8 +78,29 @@
 
             sortable.on('drag:stop', function (e) {
                 //status = e.data.overContainer.id
-                console.log(status, atendimento);
+                @this.updateAtendimento(status, atendimento);
             });
+
+
+            window.addEventListener('response', event => {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-right',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast'
+                    },
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                })
+
+                Toast.fire({
+                    icon: event.detail.status,
+                    title: event.detail.text
+                })
+            })
         })
+
     </script>
 @endpush

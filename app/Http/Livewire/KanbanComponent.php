@@ -38,13 +38,29 @@ class KanbanComponent extends Component
         return view('livewire.kanban-component', compact('status'));
     }
 
-    public function updateGroupOrder($teste)
+    public function updateAtendimento($status, $atendimento_id)
     {
-        dd($teste);
-    }
+        if(isset($status) && isset($atendimento_id)){
+            $status = str_replace("kanban-", "", $status);
+            $atendimento = Atendimento::find($atendimento_id);
 
-    public function updateTaskOrder($teste)
-    {
-        dd($teste);
+            if (in_array($atendimento->status_id, ["S", "I"])) {
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "O atendimento selecionado já foi finalizado",
+                    'status' => "error"
+                ]);
+                return;
+            }
+
+            if ($atendimento->status_id == "A" && $status == "P") {
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "O atendimento não pode retorna a um card Anterior",
+                    'status' => "error"
+                ]);
+                return;
+            }
+            dd($status, $atendimento);
+        }
+
     }
 }
