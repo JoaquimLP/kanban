@@ -10,7 +10,7 @@
                         @foreach ($item["atentimentos"] as $atendimento)
                             <div class="card card-kanban mb-0 mb-2 mx-auto text-start" data-id="{{$atendimento->id}}" style="width: 14rem;">
                                 <div class="card-body p-3">
-                                    <small class="float-end text-muted">18 Jul 2022</small>
+                                    <small class="float-end text-muted">{{date_mask1($atendimento->updated_at)}}</small>
                                     <span class="badge bg-{{$item["class"]}}">#{{$atendimento->id}}</span>
 
                                     <h5 class="mt-2 mb-2">

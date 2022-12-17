@@ -12,29 +12,29 @@ class KanbanComponent extends Component
         $status = [
                 'P' => [
                     'title' => "Pendentes",
-                    'atentimentos' => Atendimento::where('status_id', "P")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "P")->orderBy('updated_at', "DESC")->paginate(10),
                     'class' => "info"
                 ],
 
                 'A' => [
                     'title' => "Em Atendimentos",
-                    'atentimentos' => Atendimento::where('status_id', "A")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "A")->orderBy('updated_at', "DESC")->paginate(10),
                     'class' => "primary"
                 ],
 
                 'S' => [
                     'title' => "Sucesso",
-                    'atentimentos' => Atendimento::where('status_id', "S")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "S")->orderBy('updated_at', "DESC")->paginate(10),
                     'class' => "success"
                 ],
 
                 'I' => [
                     'title' => "Insucesso",
-                    'atentimentos' => Atendimento::where('status_id', "I")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "I")->orderBy('updated_at', "DESC")->paginate(10),
                     'class' => "danger"
                 ],
             ];
-        //dd($status);
+
         return view('livewire.kanban-component', compact('status'));
     }
 
@@ -58,8 +58,49 @@ class KanbanComponent extends Component
                     'status' => "error"
                 ]);
                 return;
+            }elseif ($atendimento->status_id == "P" && $status == "A") {
+                $atendimento->status_id = "A";
+                $atendimento->save();
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "Atendimento iniciado com sucesso.",
+                    'status' => "success"
+                ]);
+                return;
+            }elseif ($atendimento->status_id == "P" && $status == "S") {
+                $atendimento->status_id = "S";
+                $atendimento->save();
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "Atendimento iniciado com sucesso.",
+                    'status' => "success"
+                ]);
+                return;
+            }elseif ($atendimento->status_id == "P" && $status == "I") {
+                $atendimento->status_id = "I";
+                $atendimento->save();
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "Atendimento iniciado com Incusseo.",
+                    'status' => "success"
+                ]);
+                return;
+            }elseif ($atendimento->status_id == "A" && $status == "S") {
+                $atendimento->status_id = "S";
+                $atendimento->save();
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "Atendimento iniciado com sucesso.",
+                    'status' => "success"
+                ]);
+                return;
+            }elseif ($atendimento->status_id == "A" && $status == "I") {
+                $atendimento->status_id = "I";
+                $atendimento->save();
+                $this->dispatchBrowserEvent('response', [
+                    'text' => "Atendimento iniciado com Incusseo.",
+                    'status' => "success"
+                ]);
+                return;
             }
-            dd($status, $atendimento);
+
+            return;
         }
 
     }

@@ -35,3 +35,26 @@ function limit($val, $limit)
 {
     return \Illuminate\Support\Str::limit($val, $limit);
 }
+
+function date_mask1($date)
+{
+    $dat = Carbon\Carbon::create($date);
+    $mes = $dat->month;
+    //dd($mes);
+    $meses = array(
+        1 => "Jan",
+        2 => "Fev",
+        3 => "Mar",
+        4 => "Abrl",
+        5 => "Mai",
+        6 => "Jun",
+        7 => "Jul",
+        8 => "Ago",
+        9 => "Set",
+        10 => "Out",
+        11 => "Nov",
+        12 => "Dez"
+    );
+
+    return $dat->day . " " . $meses[$mes] . " " . $dat->year;
+}
