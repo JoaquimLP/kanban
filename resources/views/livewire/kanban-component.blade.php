@@ -2,13 +2,13 @@
     <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3 mt-2">
         @foreach ($status as $key => $item)
             <div class="col" id="{{$key}}">
-                <div class="border bg-light overflow-auto" style="height: 77vh;">
+                <div class="border bg-light overflow-auto">
                     <div class="card-header sticky-top  bg-white border-bottom border-{{$item["class"]}} mb-2 p-1">
                         <h6 class="mt-1">{{$item['title']}} ({{$item["atentimentos"]->total()}})</h6>
                     </div>
-                    <div class="kanban-category" id="kanban-{{$key}}">
+                    <div class="kanban-category" id="kanban-{{$key}}" style="height: 77vh;">
                         @foreach ($item["atentimentos"] as $atendimento)
-                            <div class="card card-kanban mb-0 mb-2 mx-auto text-start" data-id="{{$atendimento->id}}" style="width: 14rem;">
+                            <div class="card card-kanban mb-0 mb-2 mx-auto text-start card-show" data-id="{{$atendimento->id}}" style="width: 14rem;">
                                 <div class="card-body p-3">
                                     <small class="float-end text-muted">{{date_mask1($atendimento->updated_at)}}</small>
                                     <span class="badge bg-{{$item["class"]}}">#{{$atendimento->id}}</span>
@@ -45,7 +45,7 @@
                                     </div>
 
                                     <p class="mb-0">
-                                        <img src="{{ asset('img/team-'.rand(1, 4).'.jpg') }}" alt="user-img" class="avatar-xs rounded-circle me-1">
+                                        <img src="{{ asset('img/'.$atendimento->usuario->avatar.'.jpg') }}" alt="user-img" class="avatar-xs rounded-circle me-1">
                                         <span class="align-middle">{{limit($atendimento->usuario->name, 10)}}</span>
                                     </p>
                                 </div> <!-- end card-body -->
@@ -57,6 +57,7 @@
         @endforeach
     </div>
 </div>
+@include("livewire.include.modal")
 @push('scripts')
     {{-- <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.js"></script> --}}
@@ -67,16 +68,27 @@
         $(function (){
             var status = null;
             var atendimento = null;
+
             const sortable = new Sortable.default(document.querySelectorAll('.kanban-category'), {
                 draggable: '.card-kanban',
+                // mirror: {
+                //     constrainDimensions: true,
+                //     cursorOffsetX: 10,
+                //     cursorOffsetY: 10,
+                //     xAxis: false
+                // }
             });
 
             sortable.on('drag:over:container', function (e) {
+                console.log(e);
                 status = e.data.overContainer.id
                 atendimento = e.data.source.getAttribute('data-id')
+
             });
 
+
             sortable.on('drag:stop', function (e) {
+                console.log(e);
                 //status = e.data.overContainer.id
                 @this.updateAtendimento(status, atendimento);
             });
@@ -101,6 +113,12 @@
                 })
             })
         })
+
+
+        $( ".card-show" ).dblclick(function() {
+            var id = $(this).data("id");
+            console.log(id);
+        });
 
     </script>
 @endpush

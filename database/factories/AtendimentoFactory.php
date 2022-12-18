@@ -16,7 +16,7 @@ class AtendimentoFactory extends Factory
      */
     public function definition()
     {
-        $arr = array( "a"=>"P", "b"=>"A", "c"=>"S", "d"=>"I" );
+        $arr = array( "c"=>"S", "d"=>"I" );
         $midia = array( "Site", "Loja", "Facebook", "OLX", "Webmotors" );
         $key = array_rand($arr);
         $keyMIdia = array_rand($midia);
