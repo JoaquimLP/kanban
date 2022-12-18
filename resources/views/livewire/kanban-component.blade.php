@@ -2,11 +2,11 @@
     <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3 mt-2 text-center">
         @foreach ($status as $key => $item)
             <div class="col" id="{{$key}}">
-                <div class="border bg-light overflow-auto" style="height: 77vh;">
+                <div class="border bg-light overflow-auto scroll-infinite" data-id="{{$key}}" style="height: 77vh;">
                     <div class="card-header sticky-top  bg-white border-bottom border-{{$item["class"]}} mb-2 p-1">
                         <h6 class="mt-1">{{$item['title']}} ({{$item["atentimentos"]->total()}})</h6>
                     </div>
-                    <div class="kanban-category" id="kanban-{{$key}}" style="height: 77vh;">
+                    <div class="mb-2 kanban-category" id="kanban-{{$key}}" @if ($item["atentimentos"]->count() == 0)  style="height: 68vh;" @endif>
                         @foreach ($item["atentimentos"] as $atendimento)
                             <div class="card card-kanban mb-0 mb-2 mx-auto text-start card-show" data-id="{{$atendimento->id}}" style="width: 14rem;">
                                 <div class="card-body p-3" wire:click.prevent="showAtendimento({{$atendimento->id}})">
@@ -67,12 +67,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/plugins/swap-animation.js"></script>
     <script>
         $(function (){
-
-            // $( ".card-kanban" ).click(function() {
-            //     var id = $(this).data("id");
-            //     console.log(id);
-            //     @this.showAtendimento(id);
-            // });
 
             var status = null;
             var atendimento = null;
@@ -136,5 +130,17 @@
             })
         })
 
+        $(document).ready(function(){
+            $(".scroll-infinite" ).scroll(function() {
+                var id = $(this).data('id');
+                console.log(id, $(this).scrollTop() + $(this).innerHeight(), this.scrollHeight);
+                if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight - 1) {
+                    setTimeout(function(){
+                        $(this).off("scroll");
+                    }, 10000);
+                    @this.loadMore(id)
+                }
+            });
+        });
     </script>
 @endpush

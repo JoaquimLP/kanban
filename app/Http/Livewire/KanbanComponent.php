@@ -9,32 +9,69 @@ class KanbanComponent extends Component
 {
     public $atendimendoId;
     public $showAtendimento;
+    public $pendente = 10, $em_atendimento = 10, $sucesso = 10, $insucesso = 10;
 
+    public function loadMore($id)
+    {
+        switch ($id) {
+            case 'P':
+                $this->pendente += 10;
+                $this->em_atendimento = 10;
+                $this->sucesso = 10;
+                $this->insucesso = 10;
+            break;
+
+            case 'A':
+                $this->pendente = 10;
+                $this->em_atendimento += 10;
+                $this->sucesso = 10;
+                $this->insucesso = 10;
+            break;
+
+            case 'S':
+                $this->pendente = 10;
+                $this->em_atendimento = 10;
+                $this->sucesso += 10;
+                $this->insucesso = 10;
+            break;
+
+            case 'I':
+                $this->pendente = 10;
+                $this->em_atendimento = 10;
+                $this->sucesso = 10;
+                $this->insucesso += 10;
+            break;
+
+            default:
+                # code...
+                break;
+        }
+    }
 
     public function render()
     {
         $status = [
                 'P' => [
                     'title' => "Pendentes",
-                    'atentimentos' => Atendimento::where('status_id', "P")->orderBy('updated_at', "DESC")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "P")->orderBy('updated_at', "DESC")->paginate($this->pendente),
                     'class' => "info"
                 ],
 
                 'A' => [
                     'title' => "Em Atendimentos",
-                    'atentimentos' => Atendimento::where('status_id', "A")->orderBy('updated_at', "DESC")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "A")->orderBy('updated_at', "DESC")->paginate($this->em_atendimento),
                     'class' => "primary"
                 ],
 
                 'S' => [
                     'title' => "Sucesso",
-                    'atentimentos' => Atendimento::where('status_id', "S")->orderBy('updated_at', "DESC")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "S")->orderBy('updated_at', "DESC")->paginate($this->sucesso),
                     'class' => "success"
                 ],
 
                 'I' => [
                     'title' => "Insucesso",
-                    'atentimentos' => Atendimento::where('status_id', "I")->orderBy('updated_at', "DESC")->paginate(10),
+                    'atentimentos' => Atendimento::where('status_id', "I")->orderBy('updated_at', "DESC")->paginate($this->insucesso),
                     'class' => "danger"
                 ],
             ];
