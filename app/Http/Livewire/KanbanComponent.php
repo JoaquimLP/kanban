@@ -7,6 +7,10 @@ use Livewire\Component;
 
 class KanbanComponent extends Component
 {
+    public $atendimendoId;
+    public $showAtendimento;
+
+
     public function render()
     {
         $status = [
@@ -36,6 +40,26 @@ class KanbanComponent extends Component
             ];
 
         return view('livewire.kanban-component', compact('status'));
+    }
+
+    public function showAtendimento($atendimento_id)
+    {
+        $atendimento = Atendimento::find($atendimento_id);
+
+        if (!$atendimento) {
+            $this->dispatchBrowserEvent('response', [
+                'text' => "O atendimento não encontrado",
+                'status' => "error"
+            ]);
+
+            return;
+        }
+
+        $this->showAtendimento = $atendimento;
+
+        $this->dispatchBrowserEvent('open-modal', [
+            'id' => "modal-show",
+        ]);
     }
 
     public function updateAtendimento($status, $atendimento_id)
@@ -86,7 +110,7 @@ class KanbanComponent extends Component
                 $atendimento->status_id = "S";
                 $atendimento->save();
                 $this->dispatchBrowserEvent('response', [
-                    'text' => "Atendimento iniciado com sucesso.",
+                    'text' => "Atendimento finalizado como sucesso.",
                     'status' => "success"
                 ]);
                 return;
@@ -94,14 +118,20 @@ class KanbanComponent extends Component
                 $atendimento->status_id = "I";
                 $atendimento->save();
                 $this->dispatchBrowserEvent('response', [
-                    'text' => "Atendimento iniciado com Incusseo.",
+                    'text' => "Atendimento finalizado como Incusseo.",
                     'status' => "success"
                 ]);
                 return;
             }
 
-            return;
         }
+    }
 
+    public function closeModal()
+    {
+        $this->showAtendimento = "";
+        $this->dispatchBrowserEvent('close-modal', [
+            'id' => "modal-show",
+        ]);
     }
 }

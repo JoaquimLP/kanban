@@ -58,3 +58,15 @@ function date_mask1($date)
 
     return $dat->day . " " . $meses[$mes] . " " . $dat->year;
 }
+
+function label_status($key)
+{
+    $status = [
+        "P" => "Pendente",
+        "A" => "Em Atendimento",
+        "S" => "Sucesso",
+        "I" => "Insucesso",
+    ];
+
+    return empty($key) ? "" : $status[$key];
+}
